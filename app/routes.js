@@ -3,9 +3,9 @@ module.exports = function(app, passport, jwt, io) {
 
     //Requires      ====================================================================================================================================================
         var UserModel          = require('../app/models/user_web');
-        var CourseModel        = require('../app/models/course');
+        //var CourseModel        = require('../app/models/course');
         var AuthModel          = require('../app/models/auth');
-        var CheckInModel       = require('../app/models/checkIn');
+        //var CheckInModel       = require('../app/models/checkIn');
         
         var moment             = require('moment');
         var nodemailer         = require('nodemailer');
@@ -76,6 +76,8 @@ module.exports = function(app, passport, jwt, io) {
         //    -http://url.com/?auth=token     <-- Example
         function isAuth(req, res, next){
             //console.log(req.query.auth);
+            
+            /*
             AuthModel.findOne({ 'code' : req.query.auth } , function (err, auth) {
                   if (err) { return res.json({ user_auth_status : "error: error in findOne()"}) }
                   if (!auth) {
@@ -87,7 +89,8 @@ module.exports = function(app, passport, jwt, io) {
                         return next();
                     return res.json({user_auth_status: 'false'});
                   }
-            }); 
+            }); */
+            return next();
         }
 
 
@@ -176,13 +179,14 @@ module.exports = function(app, passport, jwt, io) {
             });
         });
 
+        /*
         // Web App: Get the addcourse page
         app.get('/AddCourse', isLoggedIn, isProf, function(req, res) {
             res.render('AddCourse.ejs', {
                 user : req.user, // get the user out of session and pass to template
                 message : req.flash('addCourseMessage')
             });
-        });
+        }); 
 
         // Web App: Get course page by id
         app.get('/course/:id', isLoggedIn, isProf, function(req, res) {
@@ -232,7 +236,7 @@ module.exports = function(app, passport, jwt, io) {
                     });
                 }
             });
-        });
+        }); */
 
         // Web App: logout
         app.get('/logout', function(req, res) {
@@ -240,6 +244,12 @@ module.exports = function(app, passport, jwt, io) {
             res.redirect('/');
         });
 
+///==================
+        /// restAPI Get/Post/etc
+        /// ====================
+        // Api: get all users
+
+        /*
         // Api: Get all checkins
         app.get('/api/checkin', isAuth, function (req, res){
             return CheckInModel.find(function (err, checkIns) {
@@ -250,9 +260,8 @@ module.exports = function(app, passport, jwt, io) {
             }
             });
         });
-
-
-        // Api: get all users
+    */
+        
         app.get('/api/users', isAuth, function (req, res){
                 return UserModel.find(function (err, users) {
                 if (!err) {
@@ -276,6 +285,8 @@ module.exports = function(app, passport, jwt, io) {
                 }
             });
         });
+
+        /*
          // Api: get all course ids of a user
         // -returns json array of course ids
         app.get('/api/courses/student', isAuth, function (req, res){
@@ -337,7 +348,7 @@ module.exports = function(app, passport, jwt, io) {
                 }
             });
         });
-
+        */
 
 
 
@@ -424,6 +435,7 @@ module.exports = function(app, passport, jwt, io) {
         });
 
 
+        /*
         // Web App: submit add course form, create model and populate, save, redirect and notify
         app.post('/AddCourse', isLoggedIn, isProf, function(req, res) {
 
@@ -661,7 +673,7 @@ module.exports = function(app, passport, jwt, io) {
                 res.json({ 'status' : false });
             }
         });
-
+        */
         //Api: post a student signup
         // --accepts: JSON -> {"email":"user_email","password":"user_password(plain text),
         //                      "role":"student or professor(depends on login location: app- student, web-professor)"
@@ -826,6 +838,7 @@ module.exports = function(app, passport, jwt, io) {
             });
         });
         
+        /*
         //Api: update course
         app.put('/api/courses/:id', isAuth, function (req, res){
             return CourseModel.findById(req.params.id, function (err, course) {
@@ -883,7 +896,7 @@ module.exports = function(app, passport, jwt, io) {
                 });
             });
         });
-
+    */
 
     //Type: DELETE      ====================================================================================================================================================
 
@@ -903,6 +916,7 @@ module.exports = function(app, passport, jwt, io) {
             });
         });
 
+        /*
         //Delete an announcement by id
         //send id of course in params and id of announcement in json under title "announce" : "_id"
         app.delete('/api/courses/announce/:id', isAuth, function (req, res) {
@@ -944,6 +958,7 @@ module.exports = function(app, passport, jwt, io) {
                 }
             });
         });
+        */
 // =====================================
 // =============   SOCKET  =============
 // =====================================
