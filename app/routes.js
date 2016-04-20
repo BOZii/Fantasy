@@ -168,6 +168,7 @@ module.exports = function(app, passport, jwt, io) {
 
         // Web App: Get the dashboard if logged in and are a Professor
         app.get('/dashboard', isLoggedIn, isProf, function(req, res) {
+            /*
             return CourseModel.find({'professor': req.user.id }, function(err, course){
                 if(err) 
                     throw err;
@@ -177,6 +178,12 @@ module.exports = function(app, passport, jwt, io) {
                     message : req.flash('dashMessage')
                 });
             });
+            */
+            res.render('dashboard.ejs', {
+                    course: null,
+                    user : req.user,  //get the user out of session and pass to template
+                    message : req.flash('dashMessage')
+                });
         });
 
         /*
@@ -422,6 +429,7 @@ module.exports = function(app, passport, jwt, io) {
                 // send mail with defined transport object
                 transporter.sendMail(mailOptions, function(error, info){
                     if(error){
+                        console.log(error + " ---- " + info);
                         return res.render('login.ejs', {
                             message : 'Could not send email'
                        });
