@@ -47,4 +47,4 @@ require('./app/routes.js')(app, passport, jwt, io); // load our routes and pass 
 
 // launch ======================================================================
 app.start(port);
-console.log('The magic happens on port ' + port);
+console.log('The magic happens @ localhost:' + port);
